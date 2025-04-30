@@ -1,0 +1,540 @@
+.wrap {
+    font-family: Arial, sans-serif;
+}
+
+.wp-list-table th {
+    background: #f1f1f1;
+    font-weight: bold;
+    text-align: left;
+    padding: 10px;
+}
+
+.wp-list-table td {
+    padding: 10px;
+}
+
+.error-msg{
+    border: 1px solid #ff0000 !important;
+}
+
+#delete-crm-status{
+    margin-top: 10px;
+}
+
+label, .wp-update-available{
+    font-size: 16px;
+}
+
+.cpm-update-plugin {
+    background-color: #0073aa;
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#wp-email-update-status p {
+    font-size: 15px;
+    color: #155724;
+}
+
+.cpm-update-plugin:hover {
+    background-color: #005177;
+}
+
+#cpm-message {
+    padding: 10px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+#cpm-message.success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+#cpm-message.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.cpm-plugin-checkbox {
+    transform: scale(1.2);
+}
+
+#cpm-bulk-update {
+    background-color: #0073aa;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 5px 15px;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+#cpm-bulk-update:hover {
+    background-color: #005177;
+}
+
+#cpm-message {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    display: none;
+    width: 100%;
+    max-width: 600px;
+}
+
+.cpm-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.cpm-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.cpm-close-btn {
+    float: right;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.cpm-close-btn:hover {
+    color: #555;
+}
+
+#cpm-search {
+    padding: 10px;
+    width: 40%;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#cpm-search:focus {
+    border-color: #007cba;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cpm-update-plugin{
+    text-transform: uppercase;
+}
+
+.exclude-plugin {
+    transform: scale(1.2);
+    margin-right: 10px;
+    cursor: pointer;
+    accent-color: #0073aa;
+    transition: all 0.3s ease;
+}
+
+.checked-row {
+    background: linear-gradient(90deg, #eaf4fc, #d9f0ff);
+    border-left: 5px solid #0073aa;
+    color: #0073aa;
+    font-weight: bold;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.checked-row:hover {
+    background: linear-gradient(90deg, #d9f0ff, #bce4fa);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.exclude-plugin:hover {
+    transform: scale(1.3);
+}
+
+.email-summary-div {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 30px 20px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 50%;;
+    font-family: Arial, sans-serif;
+}
+
+.email-label {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+}
+
+.email-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.email-input {
+    flex: 1;
+    padding: 10px !important;
+    border: 1px solid #ccc !important;
+    border-radius: 4px !important;
+    font-size: 14px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.email-input:focus {
+    border-color: #0073aa;
+    box-shadow: 0 0 4px rgba(0, 115, 170, 0.5);
+    outline: none;
+}
+
+.email-submit-button {
+    background-color: #0073aa;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 17px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.email-submit-button:hover {
+    background-color: #005177;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.email-submit-button:active {
+    background-color: #004466;
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.email-status {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #155724;
+    background-color: #d4edda;
+    padding: 10px;
+    border-radius: 4px;
+    display: none;
+}
+
+.email-status.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    margin-top: 15px !important;
+}
+
+.core-updater-div {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 50%;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.core-updater-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #0073aa;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #0073aa;
+    padding-bottom: 10px;
+}
+
+.core-update-message {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.core-update-message.core-up-to-date {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.core-update-button {
+    display: block;
+    width: 30%;
+    padding: 12px 20px !important;
+    font-size: 16px !important;
+    background: linear-gradient(90deg, #0073aa, #005177) !important;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.core-update-button:hover {
+    background: linear-gradient(90deg, #005177, #003e66) !important;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.core-update-button:active {
+    background: #003e66;
+    box-shadow: inset 0px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.core-update-status {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #555;
+    display: none;
+}
+
+.core-update-status.success {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.core-update-status.error {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.delete-entries-div {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 50%;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    margin-top: 20px;
+}
+
+.delete-entries-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #0073aa;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #0073aa;
+    padding-bottom: 10px;
+}
+
+.delete-entries-description {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.delete-entries-button {
+    display: block;
+    width: 30%;
+    padding: 12px 20px;
+    font-size: 16px;
+    background: linear-gradient(90deg, #0073aa, #005177);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.delete-entries-button:hover {
+    background: linear-gradient(90deg, #005177, #003e66);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.delete-entries-button:active {
+    background: #003e66;
+    box-shadow: inset 0px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.delete-status {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #555;
+    display: none;
+}
+
+.delete-status.success {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.delete-status.error {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.plugin-manager-div {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 50%;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    margin-top: 30px;
+}
+
+.plugin-manager-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #0073aa;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #0073aa;
+    padding-bottom: 10px;
+}
+
+.plugin-manager-description {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.plugin-manager-button {
+    display: block;
+    width: 30%;
+    padding: 12px 20px;
+    font-size: 16px;
+    background: linear-gradient(90deg, #0073aa, #005177);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.plugin-manager-button:hover {
+    background: linear-gradient(90deg, #005177, #003e66);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.plugin-manager-button:active {
+    background: #003e66;
+    box-shadow: inset 0px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.cpm-controls{
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.cpm-search {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.cpm-search:focus {
+    border-color: #0073aa;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cpm-filter {
+    padding: 10px !important;
+    border: 1px solid #ddd;
+    border-radius: 4px !important;
+    font-size: 14px !important;
+    background: #f9f9f9 !important;
+    outline: none;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1) !important;
+    background: #fff url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E) no-repeat right 5px top 55% !important;
+    margin-left: 10px;
+    width: 10%;
+}
+
+.cpm-table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+.cpm-plugin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cpm-plugin-table th {
+    background: #f1f1f1;
+    font-weight: bold;
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.cpm-plugin-table td {
+    padding: 10px;
+    border-bottom: 1px solid #f1f1f1;
+    text-align: left;
+}
+
+.cpm-plugin-table tr:hover {
+    background: #f9f9f9;
+}
+
+.cpm-status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.cpm-active {
+    background-color: #28a745;
+}
+
+.cpm-inactive {
+    background-color: #dc3545;
+}
+
+.cpm-up-to-date {
+    background-color: #17a2b8;
+}
+
+.cpm-message {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    display: none;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cpm-message.success {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+}
+
+.cpm-message.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+}
