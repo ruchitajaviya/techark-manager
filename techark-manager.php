@@ -2,7 +2,7 @@
 /**
  * Plugin Name: TechArk Manager
  * Description: Displays and manage pending updates in the WordPress admin dashboard.
- * Version: 1.0
+ * Version: 1.1
  * Author: TechArk
  */
 
