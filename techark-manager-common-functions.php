@@ -75,15 +75,12 @@ class TechArk_Manager_Common_Security_Settings {
             case 'disable_file_editing':
                  defined('DISALLOW_FILE_EDIT') || define('DISALLOW_FILE_EDIT', true);
                  defined('DISALLOW_FILE_MODS') || define('DISALLOW_FILE_MODS', false);
-                 $this->update_wp_config_constant('DISALLOW_FILE_EDIT',true);  // Enables DISALLOW_FILE_EDIT
-                 $this->update_wp_config_constant('DISALLOW_FILE_MODS',false);  // Enables DISALLOW_FILE_MODS
-
+                
                 break;
 
             case 'disable_script_concat':
                 defined('CONCATENATE_SCRIPTS') || define('CONCATENATE_SCRIPTS', false);
-                $this->update_wp_config_constant('CONCATENATE_SCRIPTS',false);  // Enables CONCATENATE_SCRIPTS
-
+                
                 break;
 
             case 'block_php_in_includes':
@@ -206,14 +203,6 @@ RewriteRule ^ - [F]';
                     }
                     add_filter('upload_mimes', [$this, 'allow_script_file_uploads']);
                     break;
-                case 'disable_file_editing':
-                    $this->update_wp_config_constant('DISALLOW_FILE_EDIT',false);  // Enables DISALLOW_FILE_EDIT
-                    $this->update_wp_config_constant('DISALLOW_FILE_MODS',false);  // Enables DISALLOW_FILE_MODS
-
-                    break;
-                case 'disable_script_concat':
-                    $this->update_wp_config_constant('CONCATENATE_SCRIPTS',true);  // Enables DISALLOW_FILE_EDIT
-                    break;
                 case 'bot_protection':
                 case 'block_sensitive_files':
                 case 'block_htaccess_access':
@@ -281,7 +270,28 @@ RewriteRule ^ - [F]';
         update_option($name, $value);
         update_option('techark_last_updated', current_time('mysql'));
 
+        
+
         $this->apply_security_features();
+
+        if($name == 'techark_disable_file_editing') {
+            if($value == 1) {
+                $this->update_wp_config_constant('DISALLOW_FILE_EDIT',true);  // Enables DISALLOW_FILE_EDIT
+                $this->update_wp_config_constant('DISALLOW_FILE_MODS',false);  // Enables DISALLOW_FILE_MODS
+            } else {
+                $this->update_wp_config_constant('DISALLOW_FILE_EDIT',false);  // Enables DISALLOW_FILE_EDIT
+                $this->update_wp_config_constant('DISALLOW_FILE_MODS',false);  // Enables DISALLOW_FILE_MODS
+            }
+        }
+        if($name == 'techark_disable_script_concat') {
+            if($value == 1) {
+                $this->update_wp_config_constant('CONCATENATE_SCRIPTS',false);  // Enables DISALLOW_FILE_EDIT
+
+            } else {
+                $this->update_wp_config_constant('CONCATENATE_SCRIPTS',true);  // Enables DISALLOW_FILE_EDIT
+            }
+        }
+
         $message = '<div id="setting-error-techark_security_message" class="notice notice-success settings-error is-dismissible"> 
                     <p><strong>The '.$data_name.' setting has been saved successfully.</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>
                 </div>';
@@ -299,8 +309,7 @@ RewriteRule ^ - [F]';
         wp_die();
     }
     public function update_wp_config_constant($constant, $value) {
-        $config_path = ABSPATH . 'wp-config.php';
-    
+        $config_path = ABSPATH . 'wp-config.php';    
         if (!file_exists($config_path) || !is_writable($config_path)) {
             return false;
         }
