@@ -4,6 +4,7 @@
  * Description: Displays and manage pending updates in the WordPress admin dashboard.
  * Version: 1.1
  * Author: TechArk
+ * Update URI: https://github.com/ruchitajaviya/techark-manager/
  */
 
 
