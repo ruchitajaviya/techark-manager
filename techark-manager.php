@@ -2,7 +2,7 @@
 /**
  * Plugin Name: TechArk Manager
  * Description: Displays and manage pending updates in the WordPress admin dashboard.
- * Version: 1.1
+ * Version: 1.0
  * Author: TechArk
  * Update URI: https://github.com/ruchitajaviya/techark-manager/
  */
@@ -913,7 +913,7 @@ register_deactivation_hook(__FILE__, 'techark_manager_plugin_deactivated');
 
 function techark_manager_plugin_deactivated() {
     // Example: remove .htaccess custom rules
-    techark_manager_remove_htaccess_rules();
+    
 
     $options = [
         'block_xmlrpc', 'disable_pingbacks', 'disable_file_editing', 'disable_script_concat',
@@ -930,6 +930,9 @@ function techark_manager_plugin_deactivated() {
             delete_option('techark_' . $key.'_value');
         }
     }
+    techark_manager_remove_htaccess_rules();
+    add_action('init', [$techArkSecuritySettings, 'apply_security_features']);
+
 }
 
 /** ================================

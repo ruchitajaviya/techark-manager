@@ -73,11 +73,17 @@ class TechArk_Manager_Common_Security_Settings {
                 break;
 
             case 'disable_file_editing':
-                 define('DISALLOW_FILE_EDIT', true);
+                 defined('DISALLOW_FILE_EDIT') || define('DISALLOW_FILE_EDIT', true);
+                 defined('DISALLOW_FILE_MODS') || define('DISALLOW_FILE_MODS', false);
+                 $this->update_wp_config_constant('DISALLOW_FILE_EDIT',true);  // Enables DISALLOW_FILE_EDIT
+                 $this->update_wp_config_constant('DISALLOW_FILE_MODS',false);  // Enables DISALLOW_FILE_MODS
+
                 break;
 
             case 'disable_script_concat':
-                define('CONCATENATE_SCRIPTS', false);
+                defined('CONCATENATE_SCRIPTS') || define('CONCATENATE_SCRIPTS', false);
+                $this->update_wp_config_constant('CONCATENATE_SCRIPTS',false);  // Enables CONCATENATE_SCRIPTS
+
                 break;
 
             case 'block_php_in_includes':
@@ -200,7 +206,14 @@ RewriteRule ^ - [F]';
                     }
                     add_filter('upload_mimes', [$this, 'allow_script_file_uploads']);
                     break;
+                case 'disable_file_editing':
+                    $this->update_wp_config_constant('DISALLOW_FILE_EDIT',false);  // Enables DISALLOW_FILE_EDIT
+                    $this->update_wp_config_constant('DISALLOW_FILE_MODS',false);  // Enables DISALLOW_FILE_MODS
 
+                    break;
+                case 'disable_script_concat':
+                    $this->update_wp_config_constant('CONCATENATE_SCRIPTS',true);  // Enables DISALLOW_FILE_EDIT
+                    break;
                 case 'bot_protection':
                 case 'block_sensitive_files':
                 case 'block_htaccess_access':
@@ -285,6 +298,35 @@ RewriteRule ^ - [F]';
         ]);
         wp_die();
     }
+    public function update_wp_config_constant($constant, $value) {
+        $config_path = ABSPATH . 'wp-config.php';
+    
+        if (!file_exists($config_path) || !is_writable($config_path)) {
+            return false;
+        }
+    
+        $config_contents = file_get_contents($config_path);
+    
+        // Normalize value to true/false
+        $value = $value ? 'true' : 'false';
+    
+        // Pattern to find the define statement
+        $pattern = "/define\s*\(\s*['\"]{$constant}['\"]\s*,\s*(true|false)\s*\)\s*;/i";
+        $replacement = "define('{$constant}', {$value});";
+    
+        if (preg_match($pattern, $config_contents)) {
+            // Replace existing definition
+            $new_contents = preg_replace($pattern, $replacement, $config_contents);
+        } else {
+            // Insert before the "stop editing" comment
+            $insertion = "\n{$replacement}\n";
+            $stop_line = "/* That's all, stop editing!";
+            $new_contents = str_replace($stop_line, $insertion . $stop_line, $config_contents);
+        }
+    
+        return file_put_contents($config_path, $new_contents) !== false;
+    }
+    
     
 }
 
