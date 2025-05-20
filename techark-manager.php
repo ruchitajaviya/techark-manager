@@ -12,18 +12,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Add Techark Update Manager page 
+ * Add admin side menu page
  */
 function wp_pending_updates_menu() {
+    $main_slug = 'wp-pending-wp-updates-manager';
+
+
     add_menu_page(
-        'TechArk Updates Manager',      
-        'TechArk Updates Manager',      
-        'manage_options',              
-        'wp-pending-wp-updates-manager',   
-        'wp_pending_wp_updates_page',
-        'dashicons-admin-plugins',     
-        20                            
-    );
+		'TechArk Manager',                  
+        'TechArk Manager',  
+		'manage_options',
+		'wp-pending-wp-updates-manager',
+		'wp_pending_wp_updates_page',
+		'dashicons-admin-generic',
+		30
+	);
+    add_submenu_page( $main_slug,
+		'Updates',                  
+        'Updates',  
+		'manage_options',
+        'wp-pending-wp-updates-manager',
+		'wp_pending_wp_updates_page',
+	);
+   
+
+    
 }
 add_action( 'admin_menu', 'wp_pending_updates_menu' );
 
@@ -64,7 +77,7 @@ function wp_pending_wp_updates_page() {
     ?>
     <div class="wrap">
 
-        <h1><?php esc_html_e( 'TechArk Update Manager', 'techark-manager' ); ?></h1>
+        <h1><?php esc_html_e( 'Update Manager', 'techark-manager' ); ?></h1>
 
         <div class="email-summary-div">
             <label for="wp-plugin-update-email" class="email-label"> <?php esc_html_e('Please enter your email address below to receive the maintenance summary.', 'techark-manager'); ?></label>
@@ -74,8 +87,20 @@ function wp_pending_wp_updates_page() {
                 </div>
             <div id="wp-email-update-status" class="email-status"></div>
         </div>
+    </div>
+    <div class="wrap techark-half-content">
+        
+        <div class="core-details-div techark-sub-half-content">
+            <h2 class="core-updater-title">
+                    <?php esc_html_e('WordPress & PHP Version', 'techark-manager'); ?>
+            </h2>
+            <div class="custom-techark-details">
+                <p class="entries-description"><strong class="core-details-title"><?php esc_html_e('Current WordPress Version', 'techark-manager'); ?></strong>: <?php echo get_bloginfo('version'); ?></p>
+                <p class="entries-description"><strong class="core-details-title"><?php esc_html_e('Current PHP Version', 'techark-manager'); ?></strong>: <?php echo phpversion(); ?></p>
+            </div>
+        </div>
 
-        <div class="core-updater-div">
+        <div class="core-updater-div techark-sub-half-content">
             <h2 class="core-updater-title">
                 <?php esc_html_e('WordPress Core Updater', 'techark-manager'); ?>
             </h2>
@@ -98,9 +123,9 @@ function wp_pending_wp_updates_page() {
         </div>
 
     </div>
-    <div class="wrap">
+    <div class="wrap techark-half-content">
 
-        <div class="delete-entries-div">
+        <div class="delete-entries-div techark-sub-half-content">
             <h2 class="delete-entries-title">
                 <?php esc_html_e('Manage Old Form Entries', 'techark-manager'); ?>
             </h2>
@@ -113,7 +138,7 @@ function wp_pending_wp_updates_page() {
             <div id="delete-crm-status" class="delete-status"></div>
         </div>
 
-        <div class="plugin-manager-div">
+        <div class="plugin-manager-div techark-sub-half-content">
             <h2 class="plugin-manager-title">
                 <?php esc_html_e('Plugin Manager', 'techark-manager'); ?>
             </h2>
@@ -124,8 +149,8 @@ function wp_pending_wp_updates_page() {
                 <?php esc_html_e('Update All Plugins', 'techark-manager'); ?>
             </button>
         </div>
-
-
+    </div>
+    <div class="wrap">
         <div class="cpm-controls">
             <input type="text" id="cpm-search" class="cpm-search" placeholder="Search plugins..." aria-label="Search plugins">
             <select id="cpm-filter" class="cpm-filter" aria-label="Filter plugins">
@@ -218,10 +243,10 @@ function wp_core_update_ajax_handler() {
 }
 add_action( 'wp_ajax_wp_core_update_ajax', 'wp_core_update_ajax_handler' );
 
-
-add_action('wp_ajax_cpm_update_plugin', 'update_plugin');
-
-function update_plugin() {
+/**
+ * Update plugins
+ */
+function cpm_update_plugin() {
     check_ajax_referer('cpm_update_plugin_nonce', 'security');
 
     if (!current_user_can('update_plugins')) {
@@ -260,7 +285,6 @@ function update_plugin() {
             wp_send_json_error(['message' => 'Plugin file not found.']);
         }
 
-
         $was_active = is_plugin_active($plugin_file);
 
         ob_start();
@@ -288,9 +312,10 @@ function update_plugin() {
         wp_send_json_error(['message' => 'The plugin is at the latest version.']);
     }
 }
-
-add_action('wp_ajax_cpm_activate_plugin', 'cpm_activate_plugin_handler');
-
+add_action('wp_ajax_cpm_update_plugin', 'cpm_update_plugin');
+/**
+ * Activate plugin handle
+ */
 function cpm_activate_plugin_handler() {
     if (!check_ajax_referer('wp-core-update-nonce', 'security', false)) {
         wp_send_json_error(['message' => 'Invalid security token.']);
@@ -310,9 +335,11 @@ function cpm_activate_plugin_handler() {
         wp_send_json_success(['message' => "Plugin {$plugin_slug} reactivated."]);
     }
 }
+add_action('wp_ajax_cpm_activate_plugin', 'cpm_activate_plugin_handler');
 
-add_action('wp_ajax_email_maintenance_summary', 'send_maintenance_summary_email');
-
+/**
+ * Send Maintenance Summary Email
+ */
 function send_maintenance_summary_email() {
 
     check_ajax_referer('maintenance_summary', 'nonce');
@@ -480,9 +507,11 @@ function send_maintenance_summary_email() {
         wp_send_json_error(['message' => 'Failed to send email.']);
     }
 }
+add_action('wp_ajax_email_maintenance_summary', 'send_maintenance_summary_email');
 
-add_action('wp_ajax_delete_old_crm_entries', 'delete_old_crm_entries');
-
+/**
+ * Delete old entries from database
+ */
 function delete_old_crm_entries() {
     global $wpdb;
 
@@ -583,8 +612,11 @@ function delete_old_crm_entries() {
         wp_send_json_error('No old entries found.');
     }
 }
+add_action('wp_ajax_delete_old_crm_entries', 'delete_old_crm_entries');
 
-add_action('wp_ajax_save_excluded_plugin', 'save_excluded_plugin');
+/**
+ * Save Exclusion plugins
+ */
 function save_excluded_plugin() {
 
     $plugin = sanitize_text_field($_POST['plugin']);
@@ -602,6 +634,8 @@ function save_excluded_plugin() {
     update_option('excluded_plugins', $excluded_plugins);
     wp_send_json_success(['message' => 'Exclusion settings updated']);
 }
+add_action('wp_ajax_save_excluded_plugin', 'save_excluded_plugin');
+
 
 if( ! function_exists( 'my_plugin_check_for_updates' ) ){
     function my_plugin_check_for_updates( $update, $plugin_data, $plugin_file ){
@@ -631,47 +665,36 @@ if( ! function_exists( 'my_plugin_check_for_updates' ) ){
 }
 
 /**
- * Include details of security page details functions
- */
-include 'techark-security.php';
-
-
-add_filter('pre_set_site_transient_update_plugins', 'techark_check_for_plugin_update');
-add_filter('plugins_api', 'techark_plugin_info', 20, 3);
-
-/**
  * GitHub Repository Info
  */
-define('TECHARK_GITHUB_USER', 'ruchitajaviya');
-define('TECHARK_GITHUB_REPO', 'techark-manager');
+define('TECHARK_MANAGER_GITHUB_USER', 'ruchitajaviya');
+define('TECHARK_MANAGER_GITHUB_REPO', 'techark-manager');
 
-function techark_check_for_plugin_update($transient) {
+add_filter('pre_set_site_transient_update_plugins', 'techark_manager_check_for_plugin_update');
+add_filter('plugins_api', 'techark_manager_plugin_info', 20, 3);
+/**
+ * Check for plugin update from GitHub.
+ */
+function techark_manager_check_for_plugin_update($transient) {
     if (empty($transient->checked)) return $transient;
 
     $plugin_slug = plugin_basename(__FILE__);
     $current_version = get_plugin_data(__FILE__)['Version'];
 
-    $remote = techark_get_latest_release();
-    
-    if (!$remote) {
-        error_log('Error fetching remote release info.');
+    $remote = techark_manager_get_latest_release();
+    if (!$remote || empty($remote['tag_name'])) {
+        error_log('Could not retrieve remote release information.');
         return $transient;
     }
 
-    // Debugging version comparison
-    error_log('Current Version: ' . $current_version);
-    error_log('Remote Version: ' . $remote['tag_name']);
-    
-    if (
-        $remote &&
-        version_compare($current_version, ltrim($remote['tag_name'], 'v'), '<')
-    ) {
-        $transient->response[$plugin_slug] = (object) [
+    $remote_version = ltrim($remote['tag_name'], 'v');
+    if (version_compare($current_version, $remote_version, '<')) {
+        $transient->response[$plugin_slug] = (object)[
             'slug' => dirname($plugin_slug),
             'plugin' => $plugin_slug,
-            'new_version' => $remote['tag_name'],
+            'new_version' => $remote_version,
             'url' => $remote['html_url'],
-            'package' => $remote['zipball_url'],
+            'package' => "https://github.com/" . TECHARK_MANAGER_GITHUB_USER . "/" . TECHARK_MANAGER_GITHUB_REPO . "/releases/download/{$remote['tag_name']}/techark-manager-{$remote['tag_name']}.zip"
         ];
     }
 
@@ -679,41 +702,43 @@ function techark_check_for_plugin_update($transient) {
 }
 
 /**
- * Show plugin details on the update screen.
+ * Show plugin info in the WordPress update UI.
  */
-function techark_plugin_info($result, $action, $args) {
+function techark_manager_plugin_info($result, $action, $args) {
     if ($action !== 'plugin_information' || $args->slug !== dirname(plugin_basename(__FILE__))) {
         return $result;
     }
-    
-    $remote = techark_get_latest_release();
-    
-    if (!$remote) {
+
+    $remote = techark_manager_get_latest_release();
+    if (!$remote || empty($remote['tag_name'])) {
         return $result;
     }
 
-    return (object) [
+    $version = ltrim($remote['tag_name'], 'v');
+
+    return (object)[
         'name' => 'TechArk Manager',
         'slug' => dirname(plugin_basename(__FILE__)),
-        'version' => $remote['tag_name'],
+        'version' => $version,
         'author' => '<a href="https://techark.com">TechArk</a>',
         'homepage' => $remote['html_url'],
-        'download_link' => $remote['zipball_url'],
+        'download_link' => "https://github.com/" . TECHARK_MANAGER_GITHUB_USER . "/" . TECHARK_MANAGER_GITHUB_REPO . "/releases/download/{$remote['tag_name']}/techark-manager-{$remote['tag_name']}.zip",
         'sections' => [
             'description' => 'Provides toggles to apply .htaccess-based WordPress security settings.',
-            'changelog' => nl2br($remote['body']),
+            'changelog' => !empty($remote['body']) ? nl2br($remote['body']) : 'No changelog provided.',
         ],
     ];
 }
 
 /**
- * Get latest release info from GitHub API.
+ * Fetch latest release data from GitHub.
  */
-function techark_get_latest_release() {
-    $url = "https://api.github.com/repos/" . TECHARK_GITHUB_USER . "/" . TECHARK_GITHUB_REPO . "/releases/latest";
+function techark_manager_get_latest_release() {
+    $url = "https://api.github.com/repos/" . TECHARK_MANAGER_GITHUB_USER . "/" . TECHARK_MANAGER_GITHUB_REPO . "/releases/latest";
 
     $response = wp_remote_get($url, [
         'headers' => ['User-Agent' => 'WordPress/' . get_bloginfo('version')],
+        'timeout' => 15,
     ]);
 
     if (is_wp_error($response)) {
@@ -721,11 +746,302 @@ function techark_get_latest_release() {
         return false;
     }
 
-    $data = json_decode(wp_remote_retrieve_body($response), true);
-    if (empty($data)) {
-        error_log('GitHub API returned no data or invalid format.');
+    $body = wp_remote_retrieve_body($response);
+    $data = json_decode($body, true);
+
+    if (empty($data['tag_name'])) {
+        error_log('Invalid release data from GitHub.');
         return false;
     }
 
     return $data;
 }
+
+add_filter('auto_update_plugin', 'techark_manager_enable_auto_update', 10, 2);
+
+function techark_manager_enable_auto_update($update, $item) {
+    // Replace with your actual plugin path
+    $plugin_basename = plugin_basename(__FILE__);
+
+    if ($item->plugin === $plugin_basename) {
+        return true; // Enable auto-update for this plugin
+    }
+
+    return $update; // Keep default behavior for others
+}
+include_once 'techark-manager-common-functions.php';
+include_once 'techark-security.php';
+include_once 'techark-login-security.php';
+// include_once 'techark-security-header.php';
+
+/**
+ * General status checker for multiple security options
+ */
+function techark_manager_check_security_status($option_name, $url = '') {
+    switch ($option_name) {
+        case 'disable_file_editing':
+            if (!current_user_can('edit_themes') || (defined('DISALLOW_FILE_EDIT') && DISALLOW_FILE_EDIT === true)) {
+                return 1; // File editing is disabled
+            }
+            return 0; // File editing is allowed
+
+        case 'disable_script_concat':
+            return (defined('CONCATENATE_SCRIPTS') && CONCATENATE_SCRIPTS === false) ? 1 : 0;
+
+        case 'block_xmlrpc':
+        case 'disable_pingbacks':
+            $htaccess = ABSPATH . '.htaccess';
+            if (!file_exists($htaccess)) {
+                $response = wp_remote_get($url . '?nocache=' . time(), [
+                    'headers' => [
+                        'Cache-Control' => 'no-cache',
+                        'Pragma' => 'no-cache',
+                        'User-Agent' => 'WP-Security-Check'
+                    ],
+                    'sslverify' => false,
+                    'timeout' => 15
+                ]);
+                if (is_wp_error($response)) return 0;
+                $code = wp_remote_retrieve_response_code($response);
+                $body = wp_remote_retrieve_body($response);  
+                if ($code === 403 || preg_match('/403|Access Denied/i', $body)) {
+                    return 1;
+                } else if ($code !== 200 || preg_match('/403|Access Denied/i', $body))  { 
+                    return 1;
+                } else if (empty($body) && $code == 200)  { 
+                    return 1;
+                } else {
+                    return 0;
+                }
+            } else {
+                $contents = file_get_contents($htaccess);
+                return preg_match('/<Files\s+"?xmlrpc\.php"?\s*>.*?<\/Files>/is', $contents) ? 1 : 0;
+            }
+
+        case 'block_author_scan':
+            if (empty($url)) return 0;
+            $user = get_users([
+                'number' => 1,
+                'orderby' => 'ID',
+                'order' => 'ASC',
+            ]);
+            $user_id = '';
+            if (!empty($user)) {
+                $first_user = $user[0];
+                $user_id = $first_user->ID;
+            }
+            if (empty($user_id)) return 0;
+
+            $url = $url .$user_id;
+            $response = wp_remote_get($url, [
+                'redirection' => 0,
+                'timeout' => 10,
+                'headers' => ['User-Agent' => 'WP-Security-Check']
+            ]);
+            if (is_wp_error($response)) return 0;
+            $status = wp_remote_retrieve_response_code($response);
+            $location = wp_remote_retrieve_header($response, 'location');
+            return (in_array($status, [301, 302]) && strpos($location, '/author/') !== false) ? 0 : 1;
+
+        default:
+            if (empty($url)) return 0;
+            $response = wp_remote_get($url . '?nocache=' . time(), [
+                'headers' => [
+                    'Cache-Control' => 'no-cache',
+                    'Pragma' => 'no-cache',
+                    'User-Agent' => 'WP-Security-Check'
+                ],
+                'sslverify' => false,
+                'timeout' => 15
+            ]);
+            if (is_wp_error($response)) return 0;
+            $code = wp_remote_retrieve_response_code($response);
+            $body = wp_remote_retrieve_body($response);  
+            if ($code === 403 || preg_match('/403|Access Denied/i', $body)) {
+                return 1;
+            } else if ($code !== 200 || preg_match('/403|Access Denied/i', $body))  { 
+                return 1;
+            } else if (empty($body) && $code == 200)  { 
+                return 1;
+            } else {
+                return 0;
+            }
+    }
+}
+
+/**
+ * AJAX callback: Unified check for security options
+ */
+function techark_manager_check_url_status() {
+    $option = sanitize_text_field($_POST['option_name'] ?? '');
+    $url    = esc_url_raw($_POST['link'] ?? '');
+    $status = techark_manager_check_security_status($option, $url);
+    $options = [
+        'block_xmlrpc'=>'Block XML-RPC',
+        'disable_pingbacks'=>'Disable Pingbacks',
+        'disable_file_editing'=>'Disable File Editing',
+        'disable_script_concat'=>'Disable Script Concatenation',
+        'block_php_in_includes'=>'Block PHP in wp-includes',
+        'block_php_in_uploads'=>'Block PHP in uploads',
+        'restrict_scripting_lang'=>'Restrict Scripting Languages',
+        'bot_protection'=>'Enable Bot Protection',
+        'block_sensitive_files'=>'Block Sensitive Files',
+        'block_htaccess_access'=>'Block .htaccess Access',
+        'block_author_scan' => 'Prevent Author Scans',
+        'custom_login_url' => 'Custom Login URL'
+    ];
+    echo json_encode([
+        'status'  => $status,
+        'message' => $status
+            ? '<p class="success">The '.$options[$option].' is now active and secure.</p>'
+            : '<p class="error">The '.$options[$option].' could not be activated.</p>'
+    ]);
+    wp_die();
+}
+
+add_action('wp_ajax_get_techark_check_url_status', 'techark_manager_check_url_status');
+add_action('wp_ajax_nopriv_get_techark_check_url_status', 'techark_manager_check_url_status');
+
+
+// add_filter('recovery_mode_email', '__return_false');
+
+/** ================================
+ *  Plugin Deactivation Hook
+ *  ================================ */
+register_deactivation_hook(__FILE__, 'techark_manager_plugin_deactivated');
+
+function techark_manager_plugin_deactivated() {
+    // Example: remove .htaccess custom rules
+    techark_manager_remove_htaccess_rules();
+
+    $options = [
+        'block_xmlrpc', 'disable_pingbacks', 'disable_file_editing', 'disable_script_concat',
+        'block_php_in_includes', 'block_php_in_uploads', 'restrict_scripting_lang',
+        'bot_protection', 'block_sensitive_files', 'block_htaccess_access', 'block_author_scan','custom_login_url','strong_password_enforcement'
+    ];
+    foreach ($options as $key) {
+       
+        delete_option("techark_$key");
+        if ($key === 'block_php_in_includes' || $key === 'block_php_in_uploads') {
+            delete_option( 'techark_' . $key.'_server');
+        }
+        if($key === 'custom_login_url') {
+            delete_option('techark_' . $key.'_value');
+        }
+    }
+}
+
+/** ================================
+ *  Remove Custom .htaccess Rules
+ *  ================================ */
+function techark_manager_remove_htaccess_rules() {
+    $htaccess = ABSPATH . '.htaccess';
+
+    if (!file_exists($htaccess) || !is_writable($htaccess)) {
+        return;
+    }
+
+    $contents = file_get_contents($htaccess);
+
+    // Define start and end tags for custom rules
+    $start_tag = '# BEGIN TechArk Security Rules';
+    $end_tag   = '# END TechArk Security Rules';
+
+    if (strpos($contents, $start_tag) !== false && strpos($contents, $end_tag) !== false) {
+        $pattern = "/$start_tag(.*?)$end_tag/s";
+        $contents = preg_replace($pattern, '', $contents);
+        file_put_contents($htaccess, trim($contents) . PHP_EOL);
+    }
+}
+
+/** Custom Login page Redirection Start */
+
+// 1. Get sanitized custom login slug
+function techark_manager_get_custom_login_slug() {
+    $login_url = get_option('techark_custom_login_url_value');
+
+    // Only return custom slug if enabled and not empty
+    if (empty($login_url)) {
+        return '';
+    }
+
+    return sanitize_title($login_url);
+}
+
+// 2. Add rewrite rule and query var for custom login
+function techark_manager_add_login_rewrite_rule() {
+    $slug = techark_manager_get_custom_login_slug();
+    if (!empty($slug)) {
+        add_rewrite_rule("^{$slug}/?$", 'index.php?custom_login=1', 'top');
+    }
+}
+add_action('init', 'techark_manager_add_login_rewrite_rule');
+
+/** Save Permalink */
+function techark_maybe_flush_rewrite_on_slug_change($old_value, $new_value, $option) {
+    
+    if ($old_value !== $new_value) {
+        techark_manager_add_login_rewrite_rule();
+        flush_rewrite_rules();
+    }
+}
+add_action('update_option_techark_custom_login_url_value', 'techark_maybe_flush_rewrite_on_slug_change', 10, 3);
+
+/** Add query vars */
+function techark_manager_add_login_query_var($vars) {
+    $vars[] = 'custom_login';
+    return $vars;
+}
+add_filter('query_vars', 'techark_manager_add_login_query_var');
+
+// 3. Flush rewrite rules on plugin activation
+function techark_manager_flush_login_rewrite() {
+        techark_manager_add_login_rewrite_rule();
+        flush_rewrite_rules();
+    
+}
+register_activation_hook(__FILE__, 'techark_manager_flush_login_rewrite');
+
+// 4. Redirect wp-login.php and wp-admin to custom slug
+function techark_manager_redirect_login_page() {
+    $slug = techark_manager_get_custom_login_slug();
+
+    if (empty($slug)) {
+        return; // Don’t redirect if slug is not defined
+    }
+    if (defined('DOING_AJAX') && DOING_AJAX) return;
+    if (defined('REST_REQUEST') && REST_REQUEST) return;
+
+    $parsed_path = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+    $action = $_GET['action'] ?? '';
+
+    // Allow wp-login.php access for logout/lostpassword
+    if ($parsed_path === 'wp-login.php' && in_array($action, ['logout', 'lostpassword'])) {
+        return;
+    }
+
+    if (!is_user_logged_in()) {
+        if (strpos($parsed_path, 'wp-login.php') !== false) {
+            wp_redirect(home_url($slug));
+            exit;
+        }
+
+        if (strpos($parsed_path, 'wp-admin') !== false) {
+            wp_redirect(home_url($slug));
+            exit;
+        }
+    }
+}
+
+add_action('init', 'techark_manager_redirect_login_page', 1);
+
+// 5. Serve login form at custom login slug
+function techark_manager_render_custom_login_form() {
+    if (get_query_var('custom_login') == 1) {
+        require_once ABSPATH . 'wp-login.php';
+        exit;
+    }
+}
+add_action('template_redirect', 'techark_manager_render_custom_login_form');
+
+/** Custom Login page Redirection End */

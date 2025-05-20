@@ -1,0 +1,114 @@
+.techark_user_role_wrap {
+    display: block;
+}
+.techark_user_role_modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+}
+.techark_user_role_wrap {
+    background: #fff;
+    padding: 20px;
+    max-width: 500px;
+    margin: 10% auto;
+    border-radius: 8px;
+}
+.error-notes {
+    color:#d63638;
+    margin-top: 0;
+}
+.role_modal_footer_wrap .button-red {
+    background: linear-gradient(90deg, #dc3232, #a00) !important;
+    color: #fff;
+    border-color: #dc3232;
+}
+.role_modal_footer_wrap .button-red:hover {
+    background: linear-gradient(90deg, #a00, #7a0000) !important;
+    color: #fff;
+    border-color: #a00;
+}
+#sent_mail.button,
+.button.button-primary.custom-submit-button {
+    background: linear-gradient(90deg, #0073aa, #005177) !important;
+    color: #fff !important;
+    padding: 5px 25px;
+    border-radius: 5px;
+}
+#sent_mail.button:hover,
+.button.button-primary.custom-submit-button:hover {
+    background: linear-gradient(90deg, #005177, #003e66);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  #sent_mail.button[disabled] {
+    opacity: 0.8;
+  }
+
+/* .techark_user_role_modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.techark_user_role_wrap {
+    background: #fff;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+} */
+
+.role_modal_header_wrap {
+    background: #f1f1f1;
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.role_modal_header_wrap h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.role_modal_content_wrap {
+    padding: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.role_modal_actions {
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.role_checkbox_list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.techark_user_role label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.role_modal_footer_wrap {
+    background: #f9f9f9;
+    padding: 15px 20px;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}

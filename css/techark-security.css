@@ -1,12 +1,13 @@
 .form-table th[scope="row"] {display:none}
 .form-table td {display:block;width:100%!important;padding:0!important;margin-bottom:0}
 .form-table tbody {display:flex;flex-wrap:wrap;gap:20px}
-.custom-submit-button {float:right}
-.techark-security-h1-wrap { position: sticky;top: 32px;z-index: 9999; background-color: #fff;  padding: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  border: 1px solid #ccc;}
+.techark-security-h1-wrap { position: sticky;top: 32px;z-index: 9; background-color: #fff;  padding: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  border: 1px solid #ccc;}
 .icon.error {display:none;}
 .more-info {color: #07a1c0;font-weight: 500;}
 .form-table tr {width:calc(50% - 15px);display:block;border:1px solid #ddd;border-radius:5px}
-.techark-setting-item-notes {display:block;margin-left:0;border-left:1px solid #ddd;padding-left:15px; line-height: 40px;}
+.techark-manager_page_techark-login-security-settings .form-table tr {width:100%;display:block;border:1px solid #ddd;border-radius:5px}
+
+.techark-setting-item-notes {display:block;margin-left:0;border-left:1px solid #ddd;padding-left:15px;}
 .techark-setting-item-checkbox label.checkbox-label {display:flex;align-items:center;gap:8px;width:max-content;cursor:pointer}
 .techark-setting-item-checkbox {display:flex;align-items:center;justify-content:flex-start;gap:10px}
 .techark-setting-item-notes .response-msg p {font-weight:500;font-size:13px;margin-top:8px;border-radius:3px;display:flex;align-items:center;gap:8px;font-style: italic;}
@@ -15,30 +16,34 @@
 .bordered::before {content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background-color:#0073aa}
 .techark-setting-item-notes .response-msg p.error {border-color:red}
 .techark-setting-item-notes .response-msg p.success {border-color:green}
-.check-url-response.button.button-secondary {background:#07a1c0;border-color:#07a1c0;color:#fff}
-.check-url-response.button.button-secondary:hover {opacity:.8}
+.check-url-redirect-response.button.button-secondary, .check-url-response.button.button-secondary { background: linear-gradient(90deg, #0073aa, #005177);color:#fff}
+.check-url-redirect-response.button.button-secondary:hover, .check-url-response.button.button-secondary:hover {opacity:.8}
 .server-select label,.checkbox-label-item {cursor:pointer}
-.checkbox-label-item {font-size:15px;}
+.checkbox-label-item {font-size:15px;margin-bottom: 10px !important;display: block;}
 .response-msg .error {color:red}
 .response-msg .success {color:green}
 .with_server_wrap,.check-wrap,.note-wrap {margin-left:0;margin-top:5px}
 .check-wrap .response-msg {display:inline-block;margin-left:0}
 .note-wrap {margin-top:10px}
 .check-wrap {margin-top:0;text-align:right;display:block;margin-right:5px}
-input[type="checkbox"] {width:40px;height:40px}
-input[type="checkbox"]:checked::before {width:40px;height:40px;margin: 0px 0 0 -3px;}
+form input[type="checkbox"] {width:40px;height:40px}
+form input[type="checkbox"]:checked::before {width:40px;height:40px;margin: 0px 0 0 -3px;}
 .techark-log-time {float:right;font-size:13px;font-weight:400}
 .techark-setting-item-label {font-weight:700;font-size:16px;margin-bottom:15px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ddd;padding-bottom:10px}
 .with_server_wrap label:nth-of-type(2) {margin-left:10px}
-.check-url-response {color:#000;text-underline-position:under;font-weight:500}
-.check-url-response:hover {opacity:.7;color:#000}
+.check-url-response ,.check-url-redirect-response {color:#000;text-underline-position:under;font-weight:500}
+.check-url-response:hover, .check-url-redirect-response:hover {opacity:.7;color:#000}
 .techark-section {border:1px solid #ccc;border-radius:8px;margin-bottom:20px}
 .techark-section h2 {margin:0;padding:10px 15px;cursor:normal;background:#f8f8f8;font-size:16px}
 .techark-content h2,.techark-security-h1-wrap {margin-bottom:15px;display:flex;align-items:center;justify-content:space-between}
 .techark-security-h1 {display:flex;align-items:center;gap:8px}
 .techark-security-h1 .dashicons {width:25px;height:25px;font-size:25px}
-.techark-security-h1 {font-size: 23px;font-weight: 400;margin:0;padding:9px 0 4px;line-height: 1.3;}
+.techark-security-h1 {font-size: 23px;font-weight: 400;margin:0;padding:9px 0 9px 0;line-height: 1.3;}
 .techark-content {display:none;padding:15px;background:#fff}
 .techark-section.open .techark-content {display:block}
-.custom-submit-button#submit {padding:5px 25px;border-radius:5px;}
+.custom-submit-button.button,.techark-button-wrap .custom-reset-button {padding:5px 25px;border-radius:5px;}
 .techark-log {background:#fef9e7;border-left:5px solid #f4d03f;padding:10px 15px;margin-top:20px;font-style:italic}
+.custom-techark-details { background: #fff;padding:15px; margin-bottom: 15px;}
+.custom-techark-details p {font-size: 14px; margin:5px 0; }
+.techark-security-notes-wrap { font-size: 16px;margin-bottom: 20px;background: #fff;padding: 5px 12px;font-weight: bold;color: #d63638;border: 1px solid;  border-radius: 5px; }
+.disable_option {opacity: 0.5;  pointer-events: none;}
